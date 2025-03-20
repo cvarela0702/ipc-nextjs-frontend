@@ -1,7 +1,13 @@
+--03102025
+
+the recipes are not being shown in the frontend, even when the request returns results in line 15 for res.data, what's wrong with this?
+
 --03192025
 
 - In chatGPT
 I want a modern logo, predominantly purple with warm tones for food, with a blue theme. It should include a chef hat, tilted to the left and a globe or something that denotes that it's a worldwide application for sharing recipes.
+
+----
 
 create an icon from that image to be used in the frontend, just with the globe and the hat
 
