@@ -78,3 +78,24 @@ I was thinking the following pages for the frontend application:
           - login icon / button
 
 Any relevant information that I could be missing?, should I have different layouts for different pages?, which pages should be private and which ones should be public?
+
+-----
+
+- please give me a proposal for both wireframes and UI structure
+
+-----
+
+- I'd like sketch-style wireframes
+
+----- in cursor
+
+- I want to have a navigation bar in the dashboard, where the list of categories are shown.
+- The categories list is gotten from the backend (http://localhost/api/categories).
+- I want the categories to be shown as clickable images (from image attribute)
+  - and displayed name below the image.
+- I want the link for the categories to be redirected to /category/[slug]
+  - where slug is taken from the information gotten from the API.
+- I want that categories have the ability to show that they are the active ones if the route matches their slug
+  - otherwise to show as inactive
+- I want the categories to have a hover in different style
+- I want the results to be cached so no excessive calls are done to the backend
