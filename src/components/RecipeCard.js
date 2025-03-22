@@ -31,21 +31,17 @@ const RecipeCard = () => {
                             key={recipe.id}
                             className="bg-white shadow-md rounded-lg overflow-hidden">
                             <img
-                                src={recipe.image}
-                                alt={recipe.name}
+                                src={recipe.image_url}
+                                alt={recipe.title}
                                 className="w-full h-48 object-cover"
                             />
                             <div className="p-4">
                                 <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                                    {recipe.name}
+                                    {recipe.title}
                                 </h2>
                                 <p className="text-gray-600 mb-2">
                                     {recipe.description}
                                 </p>
-                                <div className="text-sm text-gray-500">
-                                    <h3 className="font-medium mb-1">Ingredients:</h3>
-                                    <p>{recipe.ingredients}</p>
-                                </div>
                             </div>
                         </div>
                     ))}
