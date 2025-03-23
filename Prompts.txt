@@ -113,3 +113,29 @@ That information comes from these fields respectively:
 I want the information to be formated like this: "[favorites_count] [heart_icon] [ratings_avg] [star_icon] ([ratings_count]", examples:
 20+ [heart_icon] 3.5 [star_icon] (1.5k+)
 I want the icons taken from this library that already exists as a dependency: @phosphor-icons/react. I want that information to be shown on the bottom left portion of the card
+
+-----
+I want now to create a page to see the actual recipe, the recipe page has to show all recipe information:
+- title
+- description
+- ingredients
+- instructions
+- image (from image_url if present)
+- video (from video_url if present)
+- servings
+- cook time (taken from cook_time_hours and cook_time_minutes)
+- preparation time (taken from prep_time_hours and prep_time_minutes)
+- calories
+The information should be shown in the following layout:
+- Head section:
+  - title
+  - Image
+  - Favorites and rating information
+  - servings
+  - Cook time
+  - preparation time
+  - calories
+- Next section
+  - All other information
+The page should be in this format: /recipe/[recipe-slug]
+The page should call the backend at this endpoint: /api/recipes/slug/[slug] to get the recipe
