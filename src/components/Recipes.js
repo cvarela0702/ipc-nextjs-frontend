@@ -2,8 +2,9 @@
 
 import axios from '@/lib/axios'
 import useSWR from 'swr'
+import { Heart, Star } from '@phosphor-icons/react'
 
-const RecipeCard = () => {
+const Recipes = () => {
     const {
         data: recipes,
         error,
@@ -16,6 +17,13 @@ const RecipeCard = () => {
                 if (error.response.status !== 409) throw error
             }),
     )
+
+    const formatNumber = (num) => {
+        if (num >= 1000) {
+            return (num / 1000).toFixed(1) + 'k+'
+        }
+        return num.toString()
+    }
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -42,6 +50,17 @@ const RecipeCard = () => {
                                 <p className="text-gray-600 mb-2">
                                     {recipe.description}
                                 </p>
+                                <div className="flex items-center gap-2 text-sm text-gray-500">
+                                    <span className="flex items-center gap-1">
+                                        {formatNumber(recipe.favorites_count)}
+                                        <Heart weight="fill" className="text-red-500" size={16} />
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        {recipe.ratings_avg?.toFixed(1) || '0.0'}
+                                        <Star weight="fill" className="text-yellow-500" size={16} />
+                                    </span>
+                                    <span>({formatNumber(recipe.ratings_count)})</span>
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -53,4 +72,4 @@ const RecipeCard = () => {
     )
 }
 
-export default RecipeCard
+export default Recipes

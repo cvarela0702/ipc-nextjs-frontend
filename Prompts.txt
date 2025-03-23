@@ -99,3 +99,17 @@ Any relevant information that I could be missing?, should I have different layou
   - otherwise to show as inactive
 - I want the categories to have a hover in different style
 - I want the results to be cached so no excessive calls are done to the backend
+
+-----
+03222025
+@RecipeCard I want to add the following information in the Recipes shown:
+- How many times it has been flagged as favorite
+- The average rating
+- How many times it has been rated
+That information comes from these fields respectively:
+- favorites_count
+- ratings_avg
+- ratings_count
+I want the information to be formated like this: "[favorites_count] [heart_icon] [ratings_avg] [star_icon] ([ratings_count]", examples:
+20+ [heart_icon] 3.5 [star_icon] (1.5k+)
+I want the icons taken from this library that already exists as a dependency: @phosphor-icons/react. I want that information to be shown on the bottom left portion of the card
