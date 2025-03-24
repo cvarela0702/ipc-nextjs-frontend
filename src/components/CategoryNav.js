@@ -1,13 +1,14 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import useSWR from 'swr'
 import axios from '@/lib/axios'
 
 const CategoryNav = () => {
-    const pathname = usePathname()
+    const searchParams = useSearchParams()
+    const queryCategory = searchParams.get('category')
 
     const {
         data: categories,
@@ -31,12 +32,12 @@ const CategoryNav = () => {
         <nav className="bg-white shadow-sm rounded-lg p-4 mb-8">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 {categories?.map(category => {
-                    const isActive = pathname === `/category/${category.slug}`
+                    const isActive = queryCategory === category.slug
 
                     return (
                         <Link
                             key={category.id}
-                            href={`/category/${category.slug}`}
+                            href={`/recipes?category=${category.slug}`}
                             className={`
                                 group flex flex-col items-center p-3 rounded-lg transition-all duration-200
                                 ${

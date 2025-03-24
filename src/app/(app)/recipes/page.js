@@ -1,13 +1,13 @@
 import Header from '@/app/(app)/Header'
 import Recipes from '@/components/Recipes'
 export const metadata = {
-    title: 'Laravel - Dashboard',
+    title: 'Recipes',
 }
 
-const Dashboard = () => {
+const RecipesDashboard = () => {
     return (
         <>
-            <Header title="Dashboard" />
+            <Header title="Recipes" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -21,4 +21,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default RecipesDashboard

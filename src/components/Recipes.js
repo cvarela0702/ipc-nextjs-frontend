@@ -4,22 +4,29 @@ import axios from '@/lib/axios'
 import useSWR from 'swr'
 import { Heart, Star } from '@phosphor-icons/react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 const Recipes = () => {
+    let endPoint = '/api/recipes'
+    const searchParams = useSearchParams()
+    const queryCategory = searchParams.get('category')
+    if (queryCategory) {
+        endPoint += `/category-slug/${queryCategory}`
+    }
     const {
         data: recipes,
         error,
         isLoading,
-    } = useSWR('/api/recipes', () =>
+    } = useSWR(endPoint, () =>
         axios
-            .get('/api/recipes')
+            .get(endPoint)
             .then(res => res.data)
             .catch(error => {
                 if (error.response.status !== 409) throw error
             }),
     )
 
-    const formatNumber = (num) => {
+    const formatNumber = num => {
         if (num >= 1000) {
             return (num / 1000).toFixed(1) + 'k+'
         }
@@ -29,10 +36,10 @@ const Recipes = () => {
     return (
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-2xl font-bold mb-6">Recipes</h1>
-            
+
             {isLoading && <div>Loading recipes...</div>}
             {error && <div>Error loading recipes: {error.message}</div>}
-            
+
             {recipes && recipes.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {recipes.map(recipe => (
@@ -55,14 +62,29 @@ const Recipes = () => {
                                     </p>
                                     <div className="flex items-center gap-2 text-sm text-gray-500">
                                         <span className="flex items-center gap-1">
-                                            {formatNumber(recipe.favorites_count)}
-                                            <Heart weight="fill" className="text-red-500" size={16} />
+                                            {formatNumber(
+                                                recipe.favorites_count,
+                                            )}
+                                            <Heart
+                                                weight="fill"
+                                                className="text-red-500"
+                                                size={16}
+                                            />
                                         </span>
                                         <span className="flex items-center gap-1">
-                                            {recipe.ratings_avg?.toFixed(1) || '0.0'}
-                                            <Star weight="fill" className="text-yellow-500" size={16} />
+                                            {recipe.ratings_avg?.toFixed(1) ||
+                                                '0.0'}
+                                            <Star
+                                                weight="fill"
+                                                className="text-yellow-500"
+                                                size={16}
+                                            />
                                         </span>
-                                        <span>({formatNumber(recipe.ratings_count)})</span>
+                                        <span>
+                                            (
+                                            {formatNumber(recipe.ratings_count)}
+                                            )
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +92,9 @@ const Recipes = () => {
                     ))}
                 </div>
             ) : (
-                <div className="text-center text-gray-500">No recipes found</div>
+                <div className="text-center text-gray-500">
+                    No recipes found
+                </div>
             )}
         </div>
     )

@@ -11,7 +11,7 @@ import AuthSessionStatus from '@/app/(auth)/AuthSessionStatus'
 const Page = () => {
     const { forgotPassword } = useAuth({
         middleware: 'guest',
-        redirectIfAuthenticated: '/dashboard',
+        redirectIfAuthenticated: '/recipes',
     })
 
     const [email, setEmail] = useState('')
