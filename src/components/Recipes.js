@@ -3,6 +3,7 @@
 import axios from '@/lib/axios'
 import useSWR from 'swr'
 import { Heart, Star } from '@phosphor-icons/react'
+import Link from 'next/link'
 
 const Recipes = () => {
     const {
@@ -35,34 +36,37 @@ const Recipes = () => {
             {recipes && recipes.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {recipes.map(recipe => (
-                        <div
+                        <Link
                             key={recipe.id}
-                            className="bg-white shadow-md rounded-lg overflow-hidden">
-                            <img
-                                src={recipe.image_url}
-                                alt={recipe.title}
-                                className="w-full h-48 object-cover"
-                            />
-                            <div className="p-4">
-                                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                                    {recipe.title}
-                                </h2>
-                                <p className="text-gray-600 mb-2">
-                                    {recipe.description}
-                                </p>
-                                <div className="flex items-center gap-2 text-sm text-gray-500">
-                                    <span className="flex items-center gap-1">
-                                        {formatNumber(recipe.favorites_count)}
-                                        <Heart weight="fill" className="text-red-500" size={16} />
-                                    </span>
-                                    <span className="flex items-center gap-1">
-                                        {recipe.ratings_avg?.toFixed(1) || '0.0'}
-                                        <Star weight="fill" className="text-yellow-500" size={16} />
-                                    </span>
-                                    <span>({formatNumber(recipe.ratings_count)})</span>
+                            href={`/recipe/${recipe.slug}`}
+                            className="block transition-transform hover:scale-[1.02]">
+                            <div className="bg-white shadow-md rounded-lg overflow-hidden h-full">
+                                <img
+                                    src={recipe.image_url}
+                                    alt={recipe.title}
+                                    className="w-full h-48 object-cover"
+                                />
+                                <div className="p-4">
+                                    <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                                        {recipe.title}
+                                    </h2>
+                                    <p className="text-gray-600 mb-2">
+                                        {recipe.description}
+                                    </p>
+                                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                                        <span className="flex items-center gap-1">
+                                            {formatNumber(recipe.favorites_count)}
+                                            <Heart weight="fill" className="text-red-500" size={16} />
+                                        </span>
+                                        <span className="flex items-center gap-1">
+                                            {recipe.ratings_avg?.toFixed(1) || '0.0'}
+                                            <Star weight="fill" className="text-yellow-500" size={16} />
+                                        </span>
+                                        <span>({formatNumber(recipe.ratings_count)})</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             ) : (

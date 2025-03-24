@@ -139,3 +139,7 @@ The information should be shown in the following layout:
   - All other information
 The page should be in this format: /recipe/[recipe-slug]
 The page should call the backend at this endpoint: /api/recipes/slug/[slug] to get the recipe
+
+------
+03232025
+now I want each card for recipes to link to the recipe detail page, using the recipe slug field, they should redirect to the route "/recipe/[slug]" when clicked
