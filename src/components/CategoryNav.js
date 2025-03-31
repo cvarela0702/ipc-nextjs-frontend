@@ -30,7 +30,7 @@ const CategoryNav = () => {
 
     return (
         <nav className="bg-white shadow-sm rounded-lg p-4 mb-8">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-4 sm:grid-cols-3 md:grid-cols-8 lg:grid-cols-8 gap-4">
                 {categories?.map(category => {
                     const isActive = queryCategory === category.slug
 
@@ -46,7 +46,7 @@ const CategoryNav = () => {
                                         : 'hover:bg-gray-50 hover:scale-105'
                                 }
                             `}>
-                            <div className="relative w-16 h-16 mb-2">
+                            <div className="relative w-8 h-8 mb-2">
                                 <Image
                                     src={category.image}
                                     alt={category.name}

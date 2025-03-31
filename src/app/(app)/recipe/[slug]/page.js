@@ -4,7 +4,6 @@ import { useParams } from 'next/navigation'
 import useSWR from 'swr'
 import axios from '@/lib/axios'
 import { Heart, Star, Clock, Users, Fire } from '@phosphor-icons/react'
-import Header from '../../Header'
 
 const formatTime = (hours, minutes) => {
     if (hours > 0) {
@@ -61,8 +60,6 @@ const RecipePage = () => {
 
     return (
         <>
-            <Header title="Recipes" />
-
             <div className="container mx-auto px-4 py-8">
                 {/* Head Section */}
                 <div className="mb-8">
