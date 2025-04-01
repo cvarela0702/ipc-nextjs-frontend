@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation'
 import useSWR from 'swr'
 import axios from '@/lib/axios'
-import { Heart, Star, Clock, Users, Fire } from '@phosphor-icons/react'
+import { Heart, Star, Clock, Users, Fire, Trash } from '@phosphor-icons/react'
 import { useAuth } from '@/hooks/auth'
 
 const formatTime = (hours, minutes) => {
@@ -32,6 +32,9 @@ const RecipePage = () => {
 
     const isFavorite = recipe?.favorites?.length > 0
     const favoriteId = recipe?.favorites?.[0]?.id
+    const userRating = recipe?.ratings?.[0]
+    const ratingId = userRating?.id
+    const userStars = userRating?.stars || 0
 
     const toggleFavorite = async () => {
         if (!user) return
@@ -51,6 +54,42 @@ const RecipePage = () => {
             await mutate()
         } catch (error) {
             console.error('Error toggling favorite:', error)
+        }
+    }
+
+    const setRating = async (stars) => {
+        if (!user) return
+
+        try {
+            if (userRating) {
+                // Update existing rating
+                await axios.patch(`/api/ratings/${ratingId}`, {
+                    stars,
+                })
+            } else {
+                // Create new rating
+                await axios.post('/api/ratings', {
+                    user_id: user.id,
+                    recipe_id: recipe.id,
+                    stars,
+                })
+            }
+            // Refresh the recipe data
+            await mutate()
+        } catch (error) {
+            console.error('Error setting rating:', error)
+        }
+    }
+
+    const removeRating = async () => {
+        if (!user || !ratingId) return
+
+        try {
+            await axios.delete(`/api/ratings/${ratingId}`)
+            // Refresh the recipe data
+            await mutate()
+        } catch (error) {
+            console.error('Error removing rating:', error)
         }
     }
 
@@ -190,6 +229,40 @@ const RecipePage = () => {
                             </span>
                         </div>
                     </div>
+
+                    {/* Rating Section */}
+                    {user && (
+                        <div className="flex items-center gap-4 mb-8">
+                            <button
+                                onClick={removeRating}
+                                disabled={!userRating}
+                                className={`p-2 rounded-full transition-colors ${
+                                    userRating
+                                        ? 'hover:bg-gray-100'
+                                        : 'opacity-50 cursor-not-allowed'
+                                }`}>
+                                <Trash
+                                    weight={userRating ? "fill" : "regular"}
+                                    className={userRating ? "text-gray-500" : "text-gray-300"}
+                                    size={20}
+                                />
+                            </button>
+                            <div className="flex gap-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <button
+                                        key={star}
+                                        onClick={() => setRating(star)}
+                                        className="p-1 hover:scale-110 transition-transform">
+                                        <Star
+                                            weight={star <= userStars ? "fill" : "regular"}
+                                            className="text-yellow-500"
+                                            size={24}
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Content Section */}

@@ -143,3 +143,50 @@ The page should call the backend at this endpoint: /api/recipes/slug/[slug] to g
 ------
 03232025
 now I want each card for recipes to link to the recipe detail page, using the recipe slug field, they should redirect to the route "/recipe/[slug]" when clicked
+
+------
+I want to have a search page now, where users will be able to search for recipes and use different filters and criteria to search. There's a local server that I have up with meilisearch at http://localhost:7700 to which it can connect. I wand the search page to use the react instant search capabilities.
+
+I'm gettting undefined for this enrivonment variable in the browser: MEILISEARCH_API_KEY, however it's defined in my .env.local file, why is this happening? (if I use the other variable NEXT_PUBLIC_BACKEND_URL stored in my .env.file, it shows correctly)
+
+------
+03312025
+
+now I want to have the ability as a user to flag a recipe as favorite. There must be a heart icon, in the recipe detail page @page.js not filled if the recipe is not favorite yet by the current user, and filled if the recipe is already flagges as favorite by the current user in the past.
+Clicking the favorite heart icon would flip the favorite flag:
+- From not favorite to favorite:
+  - it calls this api to set as favorite: POST "localhost/api/favorites", with this body:
+    - user_id = current user ID
+    - recipe_id = current recipe ID
+  - it makes the heart now full with red color
+- From favorite to not favorite:
+  - it calls this api to remove favorite: DELETE "localhost/api/favorites/{id}"
+  - it makes the heart now not full and with gray border
+The information to know if the current user flagged or not the current recipe as favorite, comes from the request already used, from this field: favorites. If that has a non empty array, it means the user flagged this as favorite
+
+------
+04012025
+
+Now I want to have the ability as a user to rate a recipe with stars.
+There must be a line of star icons in the recipe detail page. Not filled if the recipe has not been rated yet by the current user, and filled if the recipe has been already rated by the current user in the past.
+It must show always 5 stars, and only the ones representing the rating should be filled and the other empty. If there is no rating at all by the current user, all of them should be empty.
+Clicking the star icons would set a rating for the recipe according to the star being clicked:
+- First star, rating is one
+- Second star, rating is two
+- and so on.
+Clicking the stars should send a rating request to the backend:
+- it calls this api to set the rating: POST "localhost/api/ratings", with this body:
+  - user_id = current user ID
+  - recipe_id = current recipe ID
+  - stars
+- it makes the stars now full with yellow color to represent the rating
+There must be a trash icon on the left of the rating
+- it means that the rating can be removed for the current user
+- it must be gray, disabled and empty if there's no rating, otherwise, it must be filled and clickable, when clicked:
+  - it calls this api to remove favorite: DELETE "localhost/api/ratings/{id}"
+  - it makes the star icons now not full and with yellow border
+The information to know if the current user rated or not the current recipe, comes from the request already used, from this field: ratings. If that has a non empty array, it means the user rated this as recipe, and the value for the rating is on the stars field inside that array
+
+------
+
+If there's already a value for a rating, instead of sending another POST request when another star is clicked, it should use a PATCH request instead. That way the record in the DB is updated, rather than inserting a new one.
