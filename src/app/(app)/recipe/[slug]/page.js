@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation'
 import useSWR from 'swr'
 import axios from '@/lib/axios'
 import { Heart, Star, Clock, Users, Fire } from '@phosphor-icons/react'
+import { useAuth } from '@/hooks/auth'
 
 const formatTime = (hours, minutes) => {
     if (hours > 0) {
@@ -14,10 +15,12 @@ const formatTime = (hours, minutes) => {
 
 const RecipePage = () => {
     const params = useParams()
+    const { user } = useAuth()
     const {
         data: recipe,
         error,
         isLoading,
+        mutate,
     } = useSWR(`/api/recipes/slug/${params.slug}`, () =>
         axios
             .get(`/api/recipes/slug/${params.slug}`)
@@ -26,6 +29,30 @@ const RecipePage = () => {
                 if (error.response.status !== 409) throw error
             }),
     )
+
+    const isFavorite = recipe?.favorites?.length > 0
+    const favoriteId = recipe?.favorites?.[0]?.id
+
+    const toggleFavorite = async () => {
+        if (!user) return
+
+        try {
+            if (isFavorite) {
+                // Remove favorite
+                await axios.delete(`/api/favorites/${favoriteId}`)
+            } else {
+                // Add favorite
+                await axios.post('/api/favorites', {
+                    user_id: user.id,
+                    recipe_id: recipe.id,
+                })
+            }
+            // Refresh the recipe data
+            await mutate()
+        } catch (error) {
+            console.error('Error toggling favorite:', error)
+        }
+    }
 
     if (isLoading)
         return (
@@ -63,9 +90,22 @@ const RecipePage = () => {
             <div className="container mx-auto px-4 py-8">
                 {/* Head Section */}
                 <div className="mb-8">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-6">
-                        {recipe.title}
-                    </h1>
+                    <div className="flex items-center justify-between mb-6">
+                        <h1 className="text-4xl font-bold text-gray-900">
+                            {recipe.title}
+                        </h1>
+                        {user && (
+                            <button
+                                onClick={toggleFavorite}
+                                className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                <Heart
+                                    weight={isFavorite ? "fill" : "regular"}
+                                    className={isFavorite ? "text-red-500" : "text-gray-500"}
+                                    size={32}
+                                />
+                            </button>
+                        )}
+                    </div>
 
                     {/* Image */}
                     {recipe.image_url && (

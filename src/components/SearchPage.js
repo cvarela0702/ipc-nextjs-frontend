@@ -10,7 +10,7 @@ import {
     HitsPerPage,
     SortBy,
     ClearRefinements,
-    CurrentRefinements
+    CurrentRefinements,
 } from 'react-instantsearch'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 import { Heart, Star } from '@phosphor-icons/react'
@@ -51,12 +51,12 @@ const RecipeHit = ({ hit }) => {
                     <p className="text-gray-600 mb-2">{hit.description}</p>
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                         <span className="flex items-center gap-1">
-                            {formatNumber(hit.favorites_count)}
                             <Heart
                                 weight="fill"
                                 className="text-red-500"
                                 size={16}
                             />
+                            {formatNumber(hit.favorites_count)}
                         </span>
                         <span className="flex items-center gap-1">
                             {hit.ratings_avg?.toFixed(1) || '0.0'}
@@ -108,7 +108,7 @@ const SearchPage = () => {
                         </div>
 
                         <div className="mb-6">
-                            <RatingMenu attribute="ratings_average" max={5} />
+                            <RatingMenu attribute="ratings_avg" max={5} />
                         </div>
                     </div>
 
@@ -142,12 +142,12 @@ const SearchPage = () => {
                                         label: 'Relevant',
                                     },
                                     {
-                                        value: 'recipes:favorite_count:desc',
-                                        label: 'Most Recommended',
+                                        value: 'recipes:favorites_count:desc',
+                                        label: 'Most Popular',
                                     },
                                     {
-                                        value: 'recipes:favorite_count:asc',
-                                        label: 'Least Recommended',
+                                        value: 'recipes:ratings_avg:desc',
+                                        label: 'Most liked',
                                     },
                                 ]}
                             />

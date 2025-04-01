@@ -15,6 +15,11 @@
     - About us
 - Features
     - Search recipes
+        - By facets
+            - Category
+            - Cook time
+            - Prep time
+        - My favorites
     - Sort by
     - Breadcrumb?
     - Recipe detail page
@@ -22,5 +27,8 @@
             - Answer
         - reviews
         - Comments
-        - Ability to favorite both in list and detail page
-
+        - Ability to favorite both in list and detail page?
+- To Fix
+    - Filtering by rating is not working. Fixed.
+    - Sort by is not working. Fixed
+    - The favorites count is not being updated in the search page
