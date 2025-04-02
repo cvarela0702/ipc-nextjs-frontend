@@ -149,6 +149,19 @@ const SearchPage = () => {
                                         value: 'recipes:ratings_avg:desc',
                                         label: 'Most liked',
                                     },
+                                    {
+                                        value: 'recipes:ratings_count:desc',
+                                        label: 'Most rated',
+                                    },
+                                    {
+                                        value: 'recipes:created_at:desc',
+                                        label: 'Newer first',
+                                    },
+                                    {
+                                        value: 'recipes:created_at:asc',
+                                        label: 'Older first',
+                                    },
+
                                 ]}
                             />
                         </div>
