@@ -5,14 +5,30 @@ import useSWR from 'swr'
 import { Heart, Star } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 const Recipes = () => {
     let endPoint = '/api/recipes'
     const searchParams = useSearchParams()
     const queryCategory = searchParams.get('category')
+    const successMessage = searchParams.get('success')
+    const [showSuccess, setShowSuccess] = useState(false)
+
     if (queryCategory) {
         endPoint += `/category-slug/${queryCategory}`
     }
+
+    useEffect(() => {
+        if (successMessage) {
+            setShowSuccess(true)
+            // Hide success message after 5 seconds
+            const timer = setTimeout(() => {
+                setShowSuccess(false)
+            }, 5000)
+            return () => clearTimeout(timer)
+        }
+    }, [successMessage])
+
     const {
         data: recipes,
         error,
@@ -36,6 +52,12 @@ const Recipes = () => {
     return (
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-2xl font-bold mb-6">Recipes</h1>
+
+            {showSuccess && (
+                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    {successMessage}
+                </div>
+            )}
 
             {isLoading && <div>Loading recipes...</div>}
             {error && <div>Error loading recipes: {error.message}</div>}

@@ -32,3 +32,15 @@
     - Filtering by rating is not working. Fixed.
     - Sort by is not working. Fixed
     - The favorites count is not being updated in the search page
+- To do:
+    - Ability to do the following on recipe detail page:
+        - comment on recipe
+        - ask questions on recipe
+        - answer questions on recipe
+    - Ability to create recipe
+    - Ability to edit recipe
+    - Ability to delete recipe
+    - Testing with Jest
+    - Account page
+        - Ability to change password?
+        - Delete account

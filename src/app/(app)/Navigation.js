@@ -40,6 +40,13 @@ const Navigation = ({ user }) => {
                                 active={usePathname() === '/search'}>
                                 Search
                             </NavLink>
+                            {user && (
+                                <NavLink
+                                    href="/recipes/create"
+                                    active={usePathname() === '/recipes/create'}>
+                                    Create Recipe
+                                </NavLink>
+                            )}
                         </div>
                     </div>
 
@@ -114,6 +121,20 @@ const Navigation = ({ user }) => {
                             href="/recipes"
                             active={usePathname() === '/recipes'}>
                             Recipes
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink
+                            href="/search"
+                            active={usePathname() === '/search'}>
+                            Search
+                        </ResponsiveNavLink>
+                    </div>
+                    <div className="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink
+                            href="/recipes/create"
+                            active={usePathname() === '/recipes/create'}>
+                            Create recipe
                         </ResponsiveNavLink>
                     </div>
 
