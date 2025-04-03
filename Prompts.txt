@@ -267,3 +267,7 @@ Other considerations:
   - inputs with errors should be highlighted
   - values that are correct should "survive" validation
 
+------
+04022025
+I want to add now the ability to edit a recipe, with the same required considerations for adding a recipe as requested previously
+

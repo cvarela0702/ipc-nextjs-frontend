@@ -1,11 +1,11 @@
 [Unreleased]
 
 - Links for categories
-    - Category page
+    - Category page. Done
 - Recipes
     - List recipes for logged users
-        - fav ability
-        - pagination
+        - fav ability. Done
+        - pagination. Done
     - List recipes for non logged users, but without the ability to favorite
 - Other pages
     - Home page for guest users
@@ -16,18 +16,20 @@
 - Features
     - Search recipes
         - By facets
-            - Category
-            - Cook time
-            - Prep time
+            - Category. Done
+            - Cook time. Done
+            - Prep time. Done
         - My favorites
-    - Sort by
+    - Sort by. Done
     - Breadcrumb?
+        - Not needed
     - Recipe detail page
         - Questions capabilities
             - Answer
-        - reviews
+        - reviews. Done
         - Comments
         - Ability to favorite both in list and detail page?
+            - Only for detail page. Done
 - To Fix
     - Filtering by rating is not working. Fixed.
     - Sort by is not working. Fixed
@@ -37,8 +39,8 @@
         - comment on recipe
         - ask questions on recipe
         - answer questions on recipe
-    - Ability to create recipe
-    - Ability to edit recipe
+    - Ability to create recipe. Done
+    - Ability to edit recipe.
     - Ability to delete recipe
     - Testing with Jest
     - Account page

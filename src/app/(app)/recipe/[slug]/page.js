@@ -1,10 +1,11 @@
 'use client'
 
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import useSWR from 'swr'
 import axios from '@/lib/axios'
-import { Heart, Star, Clock, Users, Fire, Trash } from '@phosphor-icons/react'
+import { Heart, Star, Clock, Users, Fire, Trash, PencilSimple } from '@phosphor-icons/react'
 import { useAuth } from '@/hooks/auth'
+import Button from '@/components/Button'
 
 const formatTime = (hours, minutes) => {
     if (hours > 0) {
@@ -15,6 +16,7 @@ const formatTime = (hours, minutes) => {
 
 const RecipePage = () => {
     const params = useParams()
+    const router = useRouter()
     const { user } = useAuth()
     const {
         data: recipe,
@@ -133,17 +135,27 @@ const RecipePage = () => {
                         <h1 className="text-4xl font-bold text-gray-900">
                             {recipe.title}
                         </h1>
-                        {user && (
-                            <button
-                                onClick={toggleFavorite}
-                                className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                                <Heart
-                                    weight={isFavorite ? "fill" : "regular"}
-                                    className={isFavorite ? "text-red-500" : "text-gray-500"}
-                                    size={32}
-                                />
-                            </button>
-                        )}
+                        <div className="flex items-center gap-2">
+                            {user && user.id === recipe.user_id && (
+                                <Button
+                                    onClick={() => router.push(`/recipe/${params.slug}/edit`)}
+                                    className="flex items-center gap-2">
+                                    <PencilSimple size={20} />
+                                    Edit Recipe
+                                </Button>
+                            )}
+                            {user && (
+                                <button
+                                    onClick={toggleFavorite}
+                                    className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                                    <Heart
+                                        weight={isFavorite ? "fill" : "regular"}
+                                        className={isFavorite ? "text-red-500" : "text-gray-500"}
+                                        size={32}
+                                    />
+                                </button>
+                            )}
+                        </div>
                     </div>
 
                     {/* Image */}
