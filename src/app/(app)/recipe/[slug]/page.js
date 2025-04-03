@@ -6,6 +6,7 @@ import axios from '@/lib/axios'
 import { Heart, Star, Clock, Users, Fire, Trash, PencilSimple } from '@phosphor-icons/react'
 import { useAuth } from '@/hooks/auth'
 import Button from '@/components/Button'
+import { useState } from 'react'
 
 const formatTime = (hours, minutes) => {
     if (hours > 0) {
@@ -18,6 +19,8 @@ const RecipePage = () => {
     const params = useParams()
     const router = useRouter()
     const { user } = useAuth()
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
     const {
         data: recipe,
         error,
@@ -95,6 +98,19 @@ const RecipePage = () => {
         }
     }
 
+    const handleDelete = async () => {
+        setIsDeleting(true)
+        try {
+            await axios.delete(`/api/recipes/slug/${params.slug}`)
+            router.push('/recipes?success=Recipe deleted successfully')
+        } catch (error) {
+            console.error('Error deleting recipe:', error)
+            setShowDeleteConfirm(false)
+        } finally {
+            setIsDeleting(false)
+        }
+    }
+
     if (isLoading)
         return (
             <div className="container mx-auto px-4 py-8">
@@ -137,12 +153,20 @@ const RecipePage = () => {
                         </h1>
                         <div className="flex items-center gap-2">
                             {user && user.id === recipe.user_id && (
-                                <Button
-                                    onClick={() => router.push(`/recipe/${params.slug}/edit`)}
-                                    className="flex items-center gap-2">
-                                    <PencilSimple size={20} />
-                                    Edit Recipe
-                                </Button>
+                                <>
+                                    <Button
+                                        onClick={() => router.push(`/recipe/${params.slug}/edit`)}
+                                        className="flex items-center gap-2">
+                                        <PencilSimple size={20} />
+                                        Edit Recipe
+                                    </Button>
+                                    <Button
+                                        onClick={() => setShowDeleteConfirm(true)}
+                                        className="flex items-center gap-2 bg-red-600 hover:bg-red-700">
+                                        <Trash size={20} />
+                                        Delete Recipe
+                                    </Button>
+                                </>
                             )}
                             {user && (
                                 <button
@@ -157,6 +181,31 @@ const RecipePage = () => {
                             )}
                         </div>
                     </div>
+
+                    {/* Delete Confirmation Dialog */}
+                    {showDeleteConfirm && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                            <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+                                <h3 className="text-xl font-semibold mb-4">Delete Recipe</h3>
+                                <p className="text-gray-600 mb-6">
+                                    Are you sure you want to delete this recipe? This action cannot be undone.
+                                </p>
+                                <div className="flex justify-end gap-4">
+                                    <Button
+                                        onClick={() => setShowDeleteConfirm(false)}
+                                        className="bg-gray-500 hover:bg-gray-600">
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        onClick={handleDelete}
+                                        disabled={isDeleting}
+                                        className="bg-red-600 hover:bg-red-700">
+                                        {isDeleting ? 'Deleting...' : 'Delete'}
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Image */}
                     {recipe.image_url && (

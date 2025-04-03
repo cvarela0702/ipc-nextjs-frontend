@@ -271,3 +271,4 @@ Other considerations:
 04022025
 I want to add now the ability to edit a recipe, with the same required considerations for adding a recipe as requested previously
 
+now I want to implement the ability to delete recipes, with the same criteria than editing, meaning, button should be displayed in the recipe detail page, and only for the author of that recipe. There must be a confirmation dialog shown before actually sending the delete request to the backend, which is: "localhost/api/recipes/slug/{{slug}}", use a button that has a trash icon and put it next to the edit recipe button from previous request.
