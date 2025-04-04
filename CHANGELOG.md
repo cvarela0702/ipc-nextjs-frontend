@@ -14,6 +14,9 @@
     - Privacy
     - About us
 - Features
+    - Image generation when recipe is created
+    - Video generation when recipe is created
+    - Autocomplete
     - Search recipes
         - By facets
             - Category. Done
@@ -39,9 +42,9 @@
         - comment on recipe
         - ask questions on recipe
         - answer questions on recipe
-    - Ability to create recipe. Done
-    - Ability to edit recipe.
-    - Ability to delete recipe
+    - Ability to create recipe. Done.
+    - Ability to edit recipe. Done.
+    - Ability to delete recipe. Done.
     - Testing with Jest
     - Account page
         - Ability to change password?
