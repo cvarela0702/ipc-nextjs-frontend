@@ -45,7 +45,9 @@
     - Ability to create recipe. Done.
     - Ability to edit recipe. Done.
     - Ability to delete recipe. Done.
-    - Testing with Jest
+    - Testing
+        - with Jest
+        - with plywright
     - Account page
         - Ability to change password?
         - Delete account
