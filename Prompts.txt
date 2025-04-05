@@ -272,3 +272,11 @@ Other considerations:
 I want to add now the ability to edit a recipe, with the same required considerations for adding a recipe as requested previously
 
 now I want to implement the ability to delete recipes, with the same criteria than editing, meaning, button should be displayed in the recipe detail page, and only for the author of that recipe. There must be a confirmation dialog shown before actually sending the delete request to the backend, which is: "localhost/api/recipes/slug/{{slug}}", use a button that has a trash icon and put it next to the edit recipe button from previous request.
+
+------
+04042025
+set up the project to be able to test with playwright, don't add any tests yet. I'll add them gradually one by one later
+
+create a test for which the user goes to the home page: http://localhost:3000/ and the user must see a link to login page http://localhost:3000/login and http://localhost:3000/register, the links must have the words: "Login" and "Register" respectively
+
+yes, add this case now: Login page http://localhost:3000/login @page.js should have an email input, a password input, a "remember me" check box, a "Forgot your password" link and a "Login" button with "Login" caption. When credentials are entered, it redirects to the recipes page: @page.js http://localhost:3000/recipes
