@@ -1,12 +1,7 @@
 [Unreleased]
 
-- Links for categories
-    - Category page. Done
 - Recipes
-    - List recipes for logged users
-        - fav ability. Done
-        - pagination. Done
-    - List recipes for non logged users, but without the ability to favorite
+    - List recipes for non logged users, but without the ability to favorite.
 - Other pages
     - Home page for guest users
     - FAQ page
@@ -18,17 +13,43 @@
     - Video generation when recipe is created
     - Autocomplete
     - Search recipes
+        - My favorites
+    - Recipe detail page
+        - Questions capabilities
+            - Answer
+        - Comments
+- To Fix
+    - The favorites count is not being updated in the search page
+- To do:
+    - Ability to do the following on recipe detail page:
+        - comment on recipe
+        - ask questions on recipe
+        - answer questions on recipe
+    - Testing
+        - with Jest
+        - with plywright
+    - Account page
+        - Ability to change password?
+        - Delete account
+- "New" label if the recipe was created in the last week
+- Edit and delete comment
+
+[Released]
+
+- Links for categories. Done
+    - Category page. Done
+- Recipes
+    - List recipes for logged users. Done
+        - fav ability. Done
+        - pagination. Done
+- Features
+    - Search recipes
         - By facets
             - Category. Done
             - Cook time. Done
             - Prep time. Done
-        - My favorites
     - Sort by. Done
-    - Breadcrumb?
-        - Not needed
     - Recipe detail page
-        - Questions capabilities
-            - Answer
         - reviews. Done
         - Comments
         - Ability to favorite both in list and detail page?
@@ -38,16 +59,8 @@
     - Sort by is not working. Fixed
     - The favorites count is not being updated in the search page
 - To do:
-    - Ability to do the following on recipe detail page:
-        - comment on recipe
-        - ask questions on recipe
-        - answer questions on recipe
     - Ability to create recipe. Done.
     - Ability to edit recipe. Done.
     - Ability to delete recipe. Done.
     - Testing
-        - with Jest
-        - with plywright
-    - Account page
-        - Ability to change password?
-        - Delete account
+        - with plywright. In progress

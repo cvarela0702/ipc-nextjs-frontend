@@ -280,3 +280,70 @@ set up the project to be able to test with playwright, don't add any tests yet. 
 create a test for which the user goes to the home page: http://localhost:3000/ and the user must see a link to login page http://localhost:3000/login and http://localhost:3000/register, the links must have the words: "Login" and "Register" respectively
 
 yes, add this case now: Login page http://localhost:3000/login @page.js should have an email input, a password input, a "remember me" check box, a "Forgot your password" link and a "Login" button with "Login" caption. When credentials are entered, it redirects to the recipes page: @page.js http://localhost:3000/recipes
+
+-------
+04062025
+I want to have now the ability for the user to add comments to the recipe. Consider the following:
+- Only logged in users can add comments to the recipe.
+- The comments can be added in the recipe detail page only.
+- It should be a simple implementation, with a list of comments at the end of the page.
+- It should show the user first,
+  - then when the comment was created in a friendly way (3 days ago, 3 hours ago)
+  - then the comment
+  - then below the question,
+  - then the name user who posted the question,
+  - then how many replies it has with a symbol
+    - (a triangle facing down or a caret) that it can be clicked to reveal the replies.
+- Comments only can have one level replies, meaning, replies cannot have replies.
+- Replies shouldn't low immediately on recipe page, but after clicking the symbol, by sending a request to the backend.
+  - Replies are loaded by calling this api from the backend: localhost/api/comments/{id}/replies
+- Comments should load when the page is loading.
+  - In the meantime they load, a loading text should be displayed
+- If the recipe has more than 10 comments, there should be a "Load more" button at the end
+  - that allows to load more comments associated to that recipe, by calling this request: "localhost/api/comments/recipe-slug/spaghetti-carbonara".
+    - That request has pagination links and structure
+- Both request for comments and for replies are paginated, they have this structure:
+```
+{
+  "current_page": number,
+  "data": array,
+  "first_page_url",
+  "from",
+  "last_page",
+  "last_page_url",
+  "links": [
+    {
+      "url",
+      "label"
+      "active"
+    },
+  ],
+  "next_page_url",
+  "path",
+  "per_page",
+  "prev_page_url",
+  "to",
+  "total"
+}
+```
+- There should be a button that says: "Add comment" at the top of the list of the comments
+  - When clicked, a modal should appear with a text area that allows the user to submit a comment
+    - submissions are using this request: localhost/api/comments with body: recipe_id, content as required
+- There should be a button that says; "Reply" at the bottom of each comment
+  - when clicked, a modal should appear with a test area that allows the user to submit a Reply
+    - submissions are using this request: localhost/api/comments with body: recipe_id, content and parent_id (the id of the comment being replied)
+
+----
+
+I'm getting this error in the build: Module not found: Can't resolve 'date-fns'
+
+----
+
+I don't see any created Modal, and I'm getting this error from the frontend: Module not found: Can't resolve '@/components/Modal'
+
+-----
+
+the list of comments in the frontend is duplicate, it shows each comment twice, not one duplicate after the other, but the list twice instead
+
+-----
+04082025

@@ -7,6 +7,7 @@ import { Heart, Star, Clock, Users, Fire, Trash, PencilSimple } from '@phosphor-
 import { useAuth } from '@/hooks/auth'
 import Button from '@/components/Button'
 import { useState } from 'react'
+import RecipeComments from '@/components/RecipeComments'
 
 const formatTime = (hours, minutes) => {
     if (hours > 0) {
@@ -388,6 +389,9 @@ const RecipePage = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Comments Section */}
+                <RecipeComments recipeId={recipe.id} recipeSlug={params.slug} />
             </div>
         </>
     )
