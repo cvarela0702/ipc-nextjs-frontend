@@ -2,7 +2,7 @@
 
 import axios from '@/lib/axios'
 import useSWR from 'swr'
-import { Heart, Star } from '@phosphor-icons/react'
+import { Heart, Star, ChatsCircle } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -105,6 +105,20 @@ const Recipes = () => {
                                         <span>
                                             (
                                             {formatNumber(recipe.ratings_count)}
+                                            )
+                                        </span>
+                                        <span className="flex items-center gap-1">
+                                            <ChatsCircle
+                                                weight="fill"
+                                                className="text-blue-500"
+                                                size={16}
+                                            />
+                                        </span>
+                                        <span>
+                                            (
+                                            {formatNumber(
+                                                recipe.comments_count,
+                                            )}
                                             )
                                         </span>
                                     </div>

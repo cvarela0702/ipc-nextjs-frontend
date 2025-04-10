@@ -13,7 +13,7 @@ import {
     CurrentRefinements,
 } from 'react-instantsearch'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
-import { Heart, Star } from '@phosphor-icons/react'
+import { ChatsCircle, Heart, Star } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { RatingMenu } from './RatingMenu'
 // import '@/styles/search.css'
@@ -67,6 +67,14 @@ const RecipeHit = ({ hit }) => {
                             />
                         </span>
                         <span>({formatNumber(hit.ratings_count)})</span>
+                        <span className="flex items-center gap-1">
+                            <ChatsCircle
+                                weight="fill"
+                                className="text-blue-500"
+                                size={16}
+                            />
+                        </span>
+                        <span>({formatNumber(hit.comments_count)})</span>
                     </div>
                 </div>
             </div>
@@ -161,7 +169,10 @@ const SearchPage = () => {
                                         value: 'recipes:created_at:asc',
                                         label: 'Older first',
                                     },
-
+                                    {
+                                        value: 'recipes:comments_count:desc',
+                                        label: 'Most commented',
+                                    },
                                 ]}
                             />
                         </div>

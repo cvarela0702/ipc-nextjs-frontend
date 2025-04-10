@@ -3,10 +3,20 @@
 import { useParams, useRouter } from 'next/navigation'
 import useSWR from 'swr'
 import axios from '@/lib/axios'
-import { Heart, Star, Clock, Users, Fire, Trash, PencilSimple } from '@phosphor-icons/react'
+import {
+    Heart,
+    Star,
+    Clock,
+    Users,
+    Fire,
+    Trash,
+    PencilSimple,
+    ChatsCircle,
+} from '@phosphor-icons/react'
 import { useAuth } from '@/hooks/auth'
 import Button from '@/components/Button'
 import { useState } from 'react'
+import RecipeComments from '@/components/RecipeComments'
 
 const formatTime = (hours, minutes) => {
     if (hours > 0) {
@@ -62,7 +72,7 @@ const RecipePage = () => {
         }
     }
 
-    const setRating = async (stars) => {
+    const setRating = async stars => {
         if (!user) return
 
         try {
@@ -155,13 +165,19 @@ const RecipePage = () => {
                             {user && user.id === recipe.user_id && (
                                 <>
                                     <Button
-                                        onClick={() => router.push(`/recipe/${params.slug}/edit`)}
+                                        onClick={() =>
+                                            router.push(
+                                                `/recipe/${params.slug}/edit`,
+                                            )
+                                        }
                                         className="flex items-center gap-2">
                                         <PencilSimple size={20} />
                                         Edit Recipe
                                     </Button>
                                     <Button
-                                        onClick={() => setShowDeleteConfirm(true)}
+                                        onClick={() =>
+                                            setShowDeleteConfirm(true)
+                                        }
                                         className="flex items-center gap-2 bg-red-600 hover:bg-red-700">
                                         <Trash size={20} />
                                         Delete Recipe
@@ -173,8 +189,12 @@ const RecipePage = () => {
                                     onClick={toggleFavorite}
                                     className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                                     <Heart
-                                        weight={isFavorite ? "fill" : "regular"}
-                                        className={isFavorite ? "text-red-500" : "text-gray-500"}
+                                        weight={isFavorite ? 'fill' : 'regular'}
+                                        className={
+                                            isFavorite
+                                                ? 'text-red-500'
+                                                : 'text-gray-500'
+                                        }
                                         size={32}
                                     />
                                 </button>
@@ -186,13 +206,18 @@ const RecipePage = () => {
                     {showDeleteConfirm && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                             <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-                                <h3 className="text-xl font-semibold mb-4">Delete Recipe</h3>
+                                <h3 className="text-xl font-semibold mb-4">
+                                    Delete Recipe
+                                </h3>
                                 <p className="text-gray-600 mb-6">
-                                    Are you sure you want to delete this recipe? This action cannot be undone.
+                                    Are you sure you want to delete this recipe?
+                                    This action cannot be undone.
                                 </p>
                                 <div className="flex justify-end gap-4">
                                     <Button
-                                        onClick={() => setShowDeleteConfirm(false)}
+                                        onClick={() =>
+                                            setShowDeleteConfirm(false)
+                                        }
                                         className="bg-gray-500 hover:bg-gray-600">
                                         Cancel
                                     </Button>
@@ -241,6 +266,16 @@ const RecipePage = () => {
                             </span>
                             <span className="text-gray-500">
                                 ({recipe.ratings_count})
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <ChatsCircle
+                                weight="fill"
+                                className="text-blue-500"
+                                size={20}
+                            />
+                            <span className="text-gray-700">
+                                ({recipe.comments_count})
                             </span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -313,19 +348,27 @@ const RecipePage = () => {
                                         : 'opacity-50 cursor-not-allowed'
                                 }`}>
                                 <Trash
-                                    weight={userRating ? "fill" : "regular"}
-                                    className={userRating ? "text-gray-500" : "text-gray-300"}
+                                    weight={userRating ? 'fill' : 'regular'}
+                                    className={
+                                        userRating
+                                            ? 'text-gray-500'
+                                            : 'text-gray-300'
+                                    }
                                     size={20}
                                 />
                             </button>
                             <div className="flex gap-1">
-                                {[1, 2, 3, 4, 5].map((star) => (
+                                {[1, 2, 3, 4, 5].map(star => (
                                     <button
                                         key={star}
                                         onClick={() => setRating(star)}
                                         className="p-1 hover:scale-110 transition-transform">
                                         <Star
-                                            weight={star <= userStars ? "fill" : "regular"}
+                                            weight={
+                                                star <= userStars
+                                                    ? 'fill'
+                                                    : 'regular'
+                                            }
                                             className="text-yellow-500"
                                             size={24}
                                         />
@@ -388,6 +431,9 @@ const RecipePage = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Comments Section */}
+                <RecipeComments recipeId={recipe.id} recipeSlug={params.slug} />
             </div>
         </>
     )
