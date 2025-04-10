@@ -64,6 +64,52 @@ const CommentModal = ({
     )
 }
 
+const Reply = ({ reply, onEdit }) => {
+    const { user } = useAuth()
+    const [showEditModal, setShowEditModal] = useState(false)
+    const isEditable = user && user.id === reply.user_id
+    const isEdited = reply.created_at !== reply.updated_at
+
+    return (
+        <div className="border-l-2 pl-4 py-2">
+            <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center gap-2">
+                    <span className="font-semibold">{reply.users.name}</span>
+                    <span className="text-gray-500 text-sm">
+                        {formatDistanceToNow(new Date(reply.created_at), {
+                            addSuffix: true,
+                        })}
+                        {isEdited && (
+                            <span className="ml-1 text-gray-400">(Edited)</span>
+                        )}
+                    </span>
+                </div>
+                {isEditable && (
+                    <Button
+                        variant="link"
+                        onClick={() => setShowEditModal(true)}
+                        className="flex items-center gap-1 text-sm">
+                        <PencilSimple size={16} />
+                        Edit
+                    </Button>
+                )}
+            </div>
+            <p>{reply.content}</p>
+
+            <CommentModal
+                isOpen={showEditModal}
+                onClose={() => setShowEditModal(false)}
+                onSubmit={async content => {
+                    await onEdit(reply.id, content)
+                }}
+                title="Edit reply"
+                initialContent={reply.content}
+                isEditing={true}
+            />
+        </div>
+    )
+}
+
 const Comment = ({ comment, onReply, onEdit }) => {
     const { user } = useAuth()
     const [showReplies, setShowReplies] = useState(false)
@@ -144,30 +190,11 @@ const Comment = ({ comment, onReply, onEdit }) => {
                         <div className="text-gray-500">Loading replies...</div>
                     ) : (
                         replies.map(reply => (
-                            <div
+                            <Reply
                                 key={reply.id}
-                                className="border-l-2 pl-4 py-2">
-                                <div className="flex items-center gap-2 mb-1">
-                                    <span className="font-semibold">
-                                        {reply.users.name}
-                                    </span>
-                                    <span className="text-gray-500 text-sm">
-                                        {formatDistanceToNow(
-                                            new Date(reply.created_at),
-                                            {
-                                                addSuffix: true,
-                                            },
-                                        )}
-                                        {reply.created_at !==
-                                            reply.updated_at && (
-                                            <span className="ml-1 text-gray-400">
-                                                (Edited)
-                                            </span>
-                                        )}
-                                    </span>
-                                </div>
-                                <p>{reply.content}</p>
-                            </div>
+                                reply={reply}
+                                onEdit={onEdit}
+                            />
                         ))
                     )}
                 </div>

@@ -358,3 +358,12 @@ I want now for users to have the ability to edit their own comments. Consider th
     - with an "Edit" button and a "Cancel" button
   - and the ability for the user to change it
 - in the list of comments, I want the word "Edited" to appear if the created_date and the updated_date from it are different
+
+-----
+
+I want the users to have the ability to edit their own replies now. Consider:
+- Components should be reused
+  - Modal, etc.
+- Logic should be reused
+  - since replies share the same entity than comments
+  - "Edited" word should be shown too
