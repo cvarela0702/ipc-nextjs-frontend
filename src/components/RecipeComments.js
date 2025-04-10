@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/auth'
 import axios from '@/lib/axios'
 import { formatDistanceToNow } from 'date-fns'
-import { CaretDown, CaretUp } from '@phosphor-icons/react'
+import { CaretDown, CaretUp, PencilSimple } from '@phosphor-icons/react'
 import Button from '@/components/Button'
 import Modal from '@/components/Modal'
 
@@ -14,9 +14,14 @@ const CommentModal = ({
     onSubmit,
     title,
     initialContent = '',
+    isEditing = false,
 }) => {
     const [content, setContent] = useState(initialContent)
     const [isSubmitting, setIsSubmitting] = useState(false)
+
+    useEffect(() => {
+        setContent(initialContent)
+    }, [initialContent])
 
     const handleSubmit = async e => {
         e.preventDefault()
@@ -47,7 +52,11 @@ const CommentModal = ({
                         Cancel
                     </Button>
                     <Button type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? 'Submitting...' : 'Submit'}
+                        {isSubmitting
+                            ? 'Submitting...'
+                            : isEditing
+                              ? 'Edit'
+                              : 'Submit'}
                     </Button>
                 </div>
             </form>
@@ -55,11 +64,16 @@ const CommentModal = ({
     )
 }
 
-const Comment = ({ comment, onReply }) => {
+const Comment = ({ comment, onReply, onEdit }) => {
+    const { user } = useAuth()
     const [showReplies, setShowReplies] = useState(false)
     const [replies, setReplies] = useState([])
     const [isLoadingReplies, setIsLoadingReplies] = useState(false)
     const [showReplyModal, setShowReplyModal] = useState(false)
+    const [showEditModal, setShowEditModal] = useState(false)
+
+    const isEditable = user && user.id === comment.user_id
+    const isEdited = comment.created_at !== comment.updated_at
 
     const loadReplies = async () => {
         if (!showReplies) {
@@ -80,13 +94,27 @@ const Comment = ({ comment, onReply }) => {
 
     return (
         <div className="border-b py-4">
-            <div className="flex items-center gap-2 mb-2">
-                <span className="font-semibold">{comment.users.name}</span>
-                <span className="text-gray-500 text-sm">
-                    {formatDistanceToNow(new Date(comment.created_at), {
-                        addSuffix: true,
-                    })}
-                </span>
+            <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                    <span className="font-semibold">{comment.users.name}</span>
+                    <span className="text-gray-500 text-sm">
+                        {formatDistanceToNow(new Date(comment.created_at), {
+                            addSuffix: true,
+                        })}
+                        {isEdited && (
+                            <span className="ml-1 text-gray-400">(Edited)</span>
+                        )}
+                    </span>
+                </div>
+                {isEditable && (
+                    <Button
+                        variant="link"
+                        onClick={() => setShowEditModal(true)}
+                        className="flex items-center gap-1 text-sm">
+                        <PencilSimple size={16} />
+                        Edit
+                    </Button>
+                )}
             </div>
             <p className="mb-2">{comment.content}</p>
             <div className="flex items-center gap-4">
@@ -130,6 +158,12 @@ const Comment = ({ comment, onReply }) => {
                                                 addSuffix: true,
                                             },
                                         )}
+                                        {reply.created_at !==
+                                            reply.updated_at && (
+                                            <span className="ml-1 text-gray-400">
+                                                (Edited)
+                                            </span>
+                                        )}
                                     </span>
                                 </div>
                                 <p>{reply.content}</p>
@@ -146,6 +180,17 @@ const Comment = ({ comment, onReply }) => {
                     await onReply(comment.id, content)
                 }}
                 title="Reply to comment"
+            />
+
+            <CommentModal
+                isOpen={showEditModal}
+                onClose={() => setShowEditModal(false)}
+                onSubmit={async content => {
+                    await onEdit(comment.id, content)
+                }}
+                title="Edit comment"
+                initialContent={comment.content}
+                isEditing={true}
             />
         </div>
     )
@@ -211,6 +256,20 @@ const RecipeComments = ({ recipeId, recipeSlug }) => {
         }
     }
 
+    const handleEdit = async (commentId, content) => {
+        try {
+            await axios.patch(`/api/comments/${commentId}`, {
+                content,
+            })
+            // Reload comments to update the edited comment
+            setComments([])
+            loadComments()
+        } catch (error) {
+            console.error('Error editing comment:', error)
+            throw error
+        }
+    }
+
     return (
         <div className="mt-8">
             <div className="flex justify-between items-center mb-6">
@@ -233,6 +292,7 @@ const RecipeComments = ({ recipeId, recipeSlug }) => {
                             key={comment.id}
                             comment={comment}
                             onReply={handleReply}
+                            onEdit={handleEdit}
                         />
                     ))}
                     {pagination?.next_page_url && (
