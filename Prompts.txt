@@ -372,8 +372,19 @@ I want the users to have the ability to edit their own replies now. Consider:
 
 I want the recipes to have a badge saying "New", considering:
 - if the recipe was created within the last week.
-- the new badge should be shown in the recipe list
+- the "new" badge should be shown in the recipe list
+- The "new" badge should also be shown in the searchpage results for the hits
+- It must be just a simple badge, but visible enough for user that the recipe is new
+- It should be placed to the right of the recipe title
+- It shouldn't be shown in the detail page for recipe
 
 -----
 
 it's not showing in the search page for the hits, because the created_at information for the hits is in unix timestamp format
+
+-----
+I want now to have the ability to integrate with openai.
+- Set up the project to have integration with it
+- For now don't implement any code functionality
+  - just setup all dependencies and configurations requirements to start developing with it
+- if you need further clarification, ask me questions and based on answers we can go from there.
