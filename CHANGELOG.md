@@ -1,7 +1,7 @@
 [Unreleased]
 
 - Recipes
-    - List recipes for non logged users, but without the ability to favorite.
+    - List recipes for non logged users, but without the ability to favorite?
 - Other pages
     - Home page for guest users
     - FAQ page
@@ -11,7 +11,7 @@
 - Features
     - Image generation when recipe is created
     - Video generation when recipe is created
-    - Autocomplete
+    - Autocomplete with Meilisearch
     - Search recipes
         - My favorites
 - To do:
@@ -21,8 +21,6 @@
     - Account page
         - Ability to change password?
         - Delete account
-- "New" label if the recipe was created in the last week
-- Edit and delete comment
 
 [Released]
 
@@ -56,3 +54,5 @@
         - comment on recipe. Done
     - Testing
         - with plywright. In progress
+- Edit and delete comment and replies. Done
+- "New" label if the recipe was created in the last week

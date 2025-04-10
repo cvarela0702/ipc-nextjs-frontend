@@ -367,3 +367,13 @@ I want the users to have the ability to edit their own replies now. Consider:
 - Logic should be reused
   - since replies share the same entity than comments
   - "Edited" word should be shown too
+
+-----
+
+I want the recipes to have a badge saying "New", considering:
+- if the recipe was created within the last week.
+- the new badge should be shown in the recipe list
+
+-----
+
+it's not showing in the search page for the hits, because the created_at information for the hits is in unix timestamp format

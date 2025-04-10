@@ -16,6 +16,7 @@ import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 import { ChatsCircle, Heart, Star } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { RatingMenu } from './RatingMenu'
+import { isRecipeNew } from '@/utils/recipe'
 // import '@/styles/search.css'
 import 'instantsearch.css/themes/algolia.css'
 // import 'instantsearch.css/themes/satellite.css'
@@ -45,8 +46,13 @@ const RecipeHit = ({ hit }) => {
                     className="w-full h-48 object-cover"
                 />
                 <div className="p-4">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                    <h2 className="text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
                         {hit.title}
+                        {isRecipeNew(hit.created_at) && (
+                            <span className="px-2 py-1 text-xs font-semibold text-white bg-green-500 rounded-full">
+                                New
+                            </span>
+                        )}
                     </h2>
                     <p className="text-gray-600 mb-2">{hit.description}</p>
                     <div className="flex items-center gap-2 text-sm text-gray-500">

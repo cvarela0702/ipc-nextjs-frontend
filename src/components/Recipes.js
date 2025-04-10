@@ -6,6 +6,7 @@ import { Heart, Star, ChatsCircle } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { isRecipeNew } from '@/utils/recipe'
 
 const Recipes = () => {
     let endPoint = '/api/recipes'
@@ -76,8 +77,13 @@ const Recipes = () => {
                                     className="w-full h-48 object-cover"
                                 />
                                 <div className="p-4">
-                                    <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                                    <h2 className="text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
                                         {recipe.title}
+                                        {isRecipeNew(recipe.created_at) && (
+                                            <span className="px-2 py-1 text-xs font-semibold text-white bg-green-500 rounded-full">
+                                                New
+                                            </span>
+                                        )}
                                     </h2>
                                     <p className="text-gray-600 mb-2">
                                         {recipe.description}
