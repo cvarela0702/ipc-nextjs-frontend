@@ -9,7 +9,6 @@
     - Privacy
     - About us
 - Features
-    - Image generation when recipe is created
     - Video generation when recipe is created
     - Autocomplete with Meilisearch
     - Search recipes
@@ -21,6 +20,7 @@
     - Account page
         - Ability to change password?
         - Delete account
+- Payment tier with stripe
 
 [Released]
 
@@ -42,6 +42,7 @@
         - Comments. Done
         - Ability to favorite both in list and detail page?
             - Only for detail page. Done
+    - Image generation when recipe is created. Done.
 - To Fix
     - Filtering by rating is not working. Fixed.
     - Sort by is not working. Fixed
