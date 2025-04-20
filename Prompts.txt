@@ -426,3 +426,54 @@ Generated AI image
     - if clicked, the generate button should appear again
 - Once the form is submitted
   - The form should sent a field "image_url" having the URL of the image that was just generated
+
+-------
+04-16-2025
+
+- With windsurf failed
+Home page design
+- I want now to have a home page for guest, where the application is explained.
+  - How to create recipes
+  - how to view and search for recipes
+  - features like:
+    - AI powered search 
+    - AI automatic generation for recipes
+- It should have attracting elements like:
+  - hero banners
+  - explanation of the page
+- it should explain:
+  - what's the product about
+  - how to create an account
+  - how to search for recipes, create them, etc.
+- it should be responsive
+- it should have the logo and title of the application: "Worldwide recipes"
+- it should have a call to action button that says: "Create account", amd that should redirect to the login page
+- it should have a footer with:
+  - Terms and conditions
+  - Privacy
+  - About us
+  - Copyright
+  - Social media
+
+---
+
+04-19-2025
+use icons from phosphoricons.com instead of react-icons/fa
+
+----
+I'm getting this error in the terminal when running `npm run dev`:
+TypeError: (0 , react__WEBPACK_IMPORTED_MODULE_0__.createContext) is not a function
+
+----
+I'm getting the following when running npm run dev:
+Warning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+-----
+still getting this:
+Warning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+Warning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+Warning: React.jsx: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+ ⨯ Error: Unsupported Server Component type: undefined
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "2655031029"

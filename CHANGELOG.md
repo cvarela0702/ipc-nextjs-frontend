@@ -20,7 +20,9 @@
     - Account page
         - Ability to change password?
         - Delete account
-- Payment tier with stripe
+- Payment tier with stripe or paddle
+- Show how many times a recipe has been viewed
+- Translation with AI
 
 [Released]
 
