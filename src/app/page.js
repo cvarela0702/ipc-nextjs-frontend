@@ -30,7 +30,7 @@ const Home = () => {
                             dish for any occasion.
                         </p>
                         <Link
-                            href="/login"
+                            href="/register"
                             className="bg-white text-orange-600 px-8 py-3 rounded-full font-semibold hover:bg-orange-50 transition duration-300">
                             Create Account
                         </Link>

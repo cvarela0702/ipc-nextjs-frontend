@@ -13,7 +13,7 @@ export function RatingMenu(props) {
             {items.map(item => (
                 <li key={item} className="ais-RatingMenu-item">
                     <a
-                        className="ais-RatingMenu-link"
+                        className={`ais-RatingMenu-link ${item.isRefined ? 'font-bold' : ''}`}
                         aria-label={`${item.value} &amp; up`}
                         href={createURL(item.value)}
                         onClick={event => {

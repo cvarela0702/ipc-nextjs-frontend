@@ -477,3 +477,29 @@ Warning: React.jsx: type is invalid -- expected a string (for built-in component
     at stringify (<anonymous>)
     at stringify (<anonymous>)
 digest: "2655031029"
+
+-----
+04-24-2025
+From chrome
+
+- For the search results hits:
+  - this is showing 4 items per row in mobile view, but I want to show 1 item per row while in mobile view instead
+  - why the classes are not being applied here?, I don't see a red border surrounding the element
+- For the search header:
+  - I'd like the elements inside this showed next to each other, how to achieve that?
+
+- From cursor
+  - I'd like the user to know which rating is selected. The selected entry should be a bold font so the user know which option is selected
+
+------
+04-25-2025
+From figma
+
+- Create a comprehensive product brief for a web application about worldwide recipes, including an executive summary, problem statement, importance of solving the problem now, data points, opportunity, risks, target audience, definition of done, and success metrics/OKRs.
+
+https://miro.com/app/board/uXjVI-U055Y=/
+
+------
+04-28-2025
+
+I'd like to dockerize this application. It's a next JS application. It communicates to a backend through APIs and to a search engine too. Currently I run this application in my local with "npm run dev", but I'd like to have that in a docker container instead to make sure the application works both in my computer and once deployed to production. Help me with that

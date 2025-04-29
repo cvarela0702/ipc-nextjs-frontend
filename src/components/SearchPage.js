@@ -137,8 +137,9 @@ const SearchPage = () => {
                             />
                         </div>
 
-                        <div className="Search-header">
+                        <div className="Search-header flex gap-4">
                             <HitsPerPage
+                            className='pt-2 pb-2 w-auto'
                                 items={[
                                     {
                                         label: '8 hits per page',
@@ -149,6 +150,7 @@ const SearchPage = () => {
                                 ]}
                             />
                             <SortBy
+                                className='pt-2 pb-2 w-auto'
                                 defaultRefinement="recipes"
                                 items={[
                                     {
@@ -184,8 +186,8 @@ const SearchPage = () => {
                         </div>
 
                         <div className="CurrentRefinements">
-                            <ClearRefinements />
-                            <CurrentRefinements />
+                            <ClearRefinements className='p-1'/>
+                            <CurrentRefinements className='p-1' />
                         </div>
 
                         <Configure
@@ -193,8 +195,15 @@ const SearchPage = () => {
                             attributesToSnippet={['description:50']}
                         />
 
-                        <Hits hitComponent={RecipeHit} />
-                        <Pagination className="Pagination" />
+                        <Hits
+                            classNames={{
+                                list: '!grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+                                item: '!w-auto !p-0 !border-0'
+                            }}
+                            className="pt-2 pb-2"
+                            hitComponent={RecipeHit}
+                        />
+                        <Pagination className="Pagination pt-2" />
                     </div>
                 </div>
             </InstantSearch>
