@@ -503,3 +503,14 @@ https://miro.com/app/board/uXjVI-U055Y=/
 04-28-2025
 
 I'd like to dockerize this application. It's a next JS application. It communicates to a backend through APIs and to a search engine too. Currently I run this application in my local with "npm run dev", but I'd like to have that in a docker container instead to make sure the application works both in my computer and once deployed to production. Help me with that
+
+----
+05-06-2026
+
+are you able to evaluate if the home page is WCAG complaint?
+help me to implement the following:
+Adding skip links for keyboard users to bypass navigation
+Implementing proper form validation messages
+Adding proper ARIA landmarks
+Including a proper meta description
+Adding proper alt text for any images that might be added in the future
