@@ -24,6 +24,7 @@
 - Have git installed locally
 - Have a GitHub account
     - with GitHub copilot enabled
+- Install [act](https://nektosact.com/) to run GitHub actions locally
 - Have an [OpenAI key](https://auth.openai.com/log-in)
 - [Node 18.18](https://nodejs.org/en) or later
 
@@ -53,6 +54,12 @@ cp .env.example .env
 
 ```.env
 NEXT_PUBLIC_BACKEND_URL=http://localhost
+```
+
+- Run GitHub actions locally
+
+```bash
+act
 ```
 
 - For the IPC only (it brings the application to the first commit)
