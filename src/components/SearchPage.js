@@ -25,6 +25,14 @@ console.log(15, process.env.NEXT_PUBLIC_MEILISEARCH_API_KEY)
 const { searchClient } = instantMeiliSearch(
     'http://localhost:7700/',
     process.env.NEXT_PUBLIC_MEILISEARCH_API_KEY,
+    {
+        meiliSearchParams: {
+            hybrid: {
+                embedder: 'recipes-openai',
+                semanticRatio: 0.5,
+            },
+        },
+    },
 )
 
 const RecipeHit = ({ hit }) => {
@@ -139,7 +147,7 @@ const SearchPage = () => {
 
                         <div className="Search-header flex gap-4">
                             <HitsPerPage
-                            className='pt-2 pb-2 w-auto'
+                                className="pt-2 pb-2 w-auto"
                                 items={[
                                     {
                                         label: '8 hits per page',
@@ -150,7 +158,7 @@ const SearchPage = () => {
                                 ]}
                             />
                             <SortBy
-                                className='pt-2 pb-2 w-auto'
+                                className="pt-2 pb-2 w-auto"
                                 defaultRefinement="recipes"
                                 items={[
                                     {
@@ -186,8 +194,8 @@ const SearchPage = () => {
                         </div>
 
                         <div className="CurrentRefinements">
-                            <ClearRefinements className='p-1'/>
-                            <CurrentRefinements className='p-1' />
+                            <ClearRefinements className="p-1" />
+                            <CurrentRefinements className="p-1" />
                         </div>
 
                         <Configure
@@ -198,7 +206,7 @@ const SearchPage = () => {
                         <Hits
                             classNames={{
                                 list: '!grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
-                                item: '!w-auto !p-0 !border-0'
+                                item: '!w-auto !p-0 !border-0',
                             }}
                             className="pt-2 pb-2"
                             hitComponent={RecipeHit}
