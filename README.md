@@ -62,7 +62,9 @@ NEXT_PUBLIC_BACKEND_URL=http://localhost
 act
 ```
 
-- For the IPC only (it brings the application to the first commit)
+- For the IPC only
+    - Copy the `RefinedPrompts.md` to somewhere in your local machine
+    - Go to the first commit
 
 ```bash
 git checkout first
