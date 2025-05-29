@@ -6,7 +6,19 @@ They are structured in this way:
 2. Then it comes the actual prompt
 3. Finally, a section to follow up with verification of the results (if any)
 
+- Requisites
+
+**Very important to do before anything to avoid issues later**
+
+- Based on [this](https://github.com/laravel/breeze-next/pull/60), fix line 106 of auth.js file to be:
+
+```js
+if (middleware === 'auth' && (user && !user.email_verified_at))
+```
+
 ## recipe-card
+
+**Generate the images for the recipes first in gemini ai**
 
 I want this to be the frontend of an application that is about sharing recipes.
 The backend is an API system based on laravel.
@@ -56,7 +68,7 @@ module.exports = {
   - otherwise to show as inactive
 - I want the categories to have a hover in different style
 - I want the results to be cached so no excessive calls are done to the backend
-- The fields returned for the category records are: name, slug, image
+- The fields returned for the category records are: name, slug, image_url
 - Do not include the name, just the image, but use the name as an alt for the image
 
 ### Verification
@@ -84,9 +96,9 @@ Make sure:
 - How many times it has been rated
 That information comes from these fields respectively:
 - favorites_count
-- ratings_average
+- ratings_avg
 - ratings_count
-I want the information to be formatted like this: "[favorites_count] [heart_icon] [ratings_average] [star_icon] ([ratings_count]", examples:
+I want the information to be formatted like this: "[favorites_count] [heart_icon] [ratings_avg] [star_icon] ([ratings_count]", examples:
 `20+ [heart_icon] 3.5 [star_icon] (1.5k+)`
 I want the icons taken from this library: @phosphor-icons/react. I want that information to be shown on the bottom left portion of the card
 
@@ -94,6 +106,7 @@ I want the icons taken from this library: @phosphor-icons/react. I want that inf
 
 Make sure:
 - to put "use client" if issues are given for icons
+- the field is `ratings_avg` instead of `ratings_average` everywhere
 
 ## recipe-by-slug
 
@@ -104,7 +117,7 @@ I want now to create a page to see the actual recipe, the recipe page has to sho
 - instructions
 - image (from image_url if present)
 - servings
-- cook time (taken from cook_time_hours and cook_time_minutes)
+- cooking time (taken from cook_time_hours and cook_time_minutes)
 - preparation time (taken from prep_time_hours and prep_time_minutes)
 - calories
 The information should be shown in the following layout:
@@ -121,14 +134,17 @@ The information should be shown in the following layout:
 - The page route should be in this format: `/recipe/[recipe-slug]`
 - The page should call the backend at this endpoint: `/api/recipes/slug/[slug]` to get the recipe
 - Make sure @axios is used for the request
-- Fix any errors: instructions is a string, not an array, same for ingredients, install skeleton and card and cardcontent from shadcn if needed: npx shadcn@latest add card skeleton
-- The page is inside (app)
+- The page should be inside (app) folder
+- This should be a client component, so make sure the fetch logic is created accordingly (No SSR components)
 
 ### Verification
 
 Make sure:
-- Aggregated fields are present: `favorites_count`, `ratings_average`, `ratings_count`
+- Aggregated fields are present: `favorites_count`, `ratings_avg`, `ratings_count`
 - axios is used for requests
+- Fix any errors: instructions is a string, not an array, same for ingredients, install skeleton and card and cardcontent from shadcn if needed: npx shadcn@latest add card skeleton
+- The page is inside (app)
+
 
 ## clickable-recipes
 
@@ -141,6 +157,8 @@ The API endpoint from the backend that provides that information is: `localhost/
 Make sure @axios is used for request
 Reuse the @RecipeCard to display the list of recipes in the new page.
 Currently, is the category navigation @CategoryNav.js  that that have the links to the category pages
+use "use client" in the page to avoid issues
+The navigation for categories should remain in place at the top of the page, so include it in the new page too
 
 ### Verification
 
@@ -153,6 +171,8 @@ Make sure:
 I want to have a search page now, where users will be able to search for recipes and use different filters and criteria to search.
 There's a local server that I have up with meilisearch at `http://localhost:7700` to which it can connect. I want the search page to use the react instant search capabilities. @MeiliSearch React . I want the search path to be inside the (app) folder. The index used for searching is "recipes", and the hits return the following information: id, title, slug, description, ingredients, instructions. Please reuse the @RecipeCard to show the information for hits in the page.
 Add a "Search" navigation link in @Navigation
+    - both for mobile (hamburger menu and desktop)
+Use `RefinementList` for filters
 This is the index configuration:
 
 ```json
@@ -168,14 +188,14 @@ This is the index configuration:
     ],
     "filterableAttributes": [
         "categories",
-        "prep_time",
-        "cook_time",
+        "preparation_time",
+        "cooking_time",
         "servings",
         "calories",
         "favorites_count",
         "ratings_count",
         "ratings_sum",
-        "ratings_average",
+        "ratings_avg",
         "servings",
         "calories"
     ],
@@ -183,7 +203,7 @@ This is the index configuration:
         "comments_count",
         "created_at",
         "favorites_count",
-        "ratings_average",
+        "ratings_avg",
         "ratings_count",
         "ratings_sum"
     ],
@@ -231,6 +251,8 @@ This is the index configuration:
 ### Verification
 
 Make sure:
+- search sort by uses this suffix: `recipes:`, for example: `value: 'recipes:favorites_count:desc',`
+- to run: `npm install @meilisearch/instant-meilisearch react-instantsearch`
 - if there’s an error with "The `searchClient` must implement a `search` method", enclose searchClient with curly braces
 - to specify the styles for list for Hits if they show wrong (1 single column, etc.) and for root: `root: 'w-full'`,
 - to run `npm install instantsearch.css` and use it in the search page for better look
@@ -239,7 +261,8 @@ Make sure:
 
 ## search-improvements
 
-Add now also a refinement based on rating widget from algolia @web @docs:algolia. The attribute to filter by for rating from the index is: ratings_average 
+Add now also a refinement based on rating widget from algolia @web @docs:algolia. The attribute to filter by for rating from the index is: ratings_avg
+I want the implementation to use useRating as explained here: https://www.algolia.com/doc/api-reference/widgets/rating-menu/react/
 
 ### Verification
 
@@ -251,6 +274,8 @@ className={`ais-RatingMenu-starIcon ais-RatingMenu-starIcon—empty`}
 ```
 
 - replace path for empty star for this: `d="M12 6.76l1.379 4.246h4.465l-3.612 2.625 1.379 4.246-3.611-2.625-3.612 2.625 1.379-4.246-3.612-2.625h4.465l1.38-4.246zm0-6.472l-2.833 8.718h-9.167l7.416 5.389-2.833 8.718 7.417-5.388 7.416 5.388-2.833-8.718 7.417-5.389h-9.167l-2.833-8.718z"`
+
+- Use `item.isRefined` to change the font to be bold for stars in the `className` for the link: `${item.isRefined ? 'font-bold' : ''}`
 
 ## favorite-functionality
 
@@ -275,6 +300,7 @@ The information to know if the current user flagged or not the current recipe as
 
 Make sure:
 - axios is used for the request
+- if debug is needed use `Web App (Chrome)` from the IDE
 
 ## ratings-functionality
 
@@ -282,6 +308,21 @@ Now I want to have the ability as a user to rate a recipe with stars in @page
 There must be a line of star icons in the recipe detail page.
 Not filled if the recipe has not been rated yet by the current user, and filled if the recipe has been already rated by the current user in the past.
 It must show always 5 stars, and only the ones representing the rating should be filled and the other empty. If there is no rating at all by the current user, all of them should be empty.
+the information to see how many stars the user currently have is under "ratings" in the response when getting the recipe by slug, like this:
+
+```json
+"ratings": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "recipe_id": 1,
+            "rating": 4,
+            "created_at": "2025-05-21T23:13:13.000000Z",
+            "updated_at": "2025-05-21T23:13:13.000000Z"
+        }
+    ],
+```
+
 Clicking the star icons would set a rating for the recipe according to the star being clicked:
 - First star, rating is one
 - Second star, rating is two
@@ -389,6 +430,7 @@ Other considerations:
   - values that are correct should "survive" validation
 - Make sure @axios is used for request
 - create an entry for "Create Recipe" in the @navigation
+    - both for mobile (hamburger menu and desktop)
 
 ### Verification
 
@@ -398,6 +440,11 @@ Make sure:
 ## recipes-edit-page
 
 I want to add now the ability to edit a recipe, with the same required considerations for adding a recipe as requested previously
+Everything should be done using the slug of the recipe, not the id (for linking in the frontend and request to the backend)
+So the new edit page has to be created under `(app)/recipe/[slug]/edit/page`
+An edit button should be displayed in the recipe detail page for the recipes that belong to the user
+To edit the page, consider the slug of the recipe and not the id for the navigation to it
+There should be an "Edit" button in the list of recipes under "My recipes" page too
 
 ### Verification
 
@@ -406,7 +453,7 @@ Make sure:
 
 ## delete-functionality
 
-now I want to implement the ability to delete recipes, with the same criteria than editing, meaning, button should be displayed in the recipe detail page, and only for the author of that recipe. There must be a confirmation dialog shown before actually sending the delete request to the backend, which is: `localhost/api/recipes/slug/{{slug}}`, use a button that has a trash icon and put it next to the edit recipe button from previous request.
+now I want to implement the ability to delete recipes, with the same criteria than editing, meaning, button should be displayed in the recipe detail page, and only for the author of that recipe. The same should be displayed in the my-recipes page. There must be a confirmation dialog shown before actually sending the delete request to the backend, which is: `localhost/api/recipes/slug/{{slug}}`, use a button that has a trash icon and put it next to the edit recipe button from previous request.
 
 ### Verification
 
@@ -422,19 +469,30 @@ the category name can be taken from name field under categories
 
 ## comments-implementations
 
+**Verify first if the comments and replies from the backend is paginated or not, depending on that, the response will be different below. Check this first and adjust request if necessary**
+
 I want to have now the ability for the user to add comments to the recipe. Consider the following:
 - Only logged in users can add comments to the recipe.
+- The endpoint from the backend to add comments is: `localhost/api/comments`
+- the body to submit a comment is like this:
+
+```json
+{
+    "recipe_id": 1,
+    "comment": "Test from postman"
+}
+```
+
 - The comments can be added in the recipe detail page only. @page
 - It should be a simple implementation, with a list of comments at the end of the page.
 - It should show the user first,
   - then when the comment was created in a friendly way (3 days ago, 3 hours ago)
   - then the comment
-  - then below the question,
-  - then the name user who posted the question,
+  - then the name user who posted the comment,
   - then how many replies it has with a symbol
     - (a triangle facing down or a caret) that it can be clicked to reveal the replies.
 - Comments only can have one level replies, meaning, replies cannot have replies.
-- Replies shouldn't low immediately on recipe page, but after clicking the symbol, by sending a request to the backend.
+- Replies shouldn't load immediately on recipe page, but after clicking the symbol, by sending a request to the backend.
   - Replies are loaded by calling this api from the backend: `localhost/api/comments/{id}/replies`
 - Comments should load when the page is loading.
   - In the meantime they load, a loading text should be displayed
@@ -446,7 +504,26 @@ I want to have now the ability for the user to add comments to the recipe. Consi
 ```json
 {
   "current_page": number,
-  "data": array,
+  "data": [
+    {
+        "id": 32,
+        "recipe_id": 1,
+        "user_id": 1,
+        "comment": "New one",
+        "parent_id": null,
+        "created_at": "2025-05-27T02:38:52.000000Z",
+        "updated_at": "2025-05-27T11:48:37.000000Z",
+        "replies_count": 0,
+        "user": {
+            "id": 1,
+            "name": "Test User",
+            "email": "test@example.com",
+            "email_verified_at": "2025-05-27T00:44:36.000000Z",
+            "created_at": "2025-05-27T00:44:36.000000Z",
+            "updated_at": "2025-05-27T00:44:36.000000Z"
+        }
+    }
+  ],
   "first_page_url",
   "from",
   "last_page",
@@ -478,6 +555,7 @@ I want to have now the ability for the user to add comments to the recipe. Consi
 ### Verification
 
 Make sure:
+- date-fns is installed if needed
 - axios is used for the request
 
 ## comments-edition
@@ -493,6 +571,8 @@ I want now for users to have the ability to edit their own comments. Consider th
     - with an "Edit" button and a "Cancel" button
   - and the ability for the user to change it
 - in the list of comments, I want the word "Edited" to appear if the created_date and the updated_date from it are different
+- This should be done in the recipe detail page @page.js 
+- The name of the comment field is `comment`, not `content`
 
 ### Verification
 
@@ -508,6 +588,8 @@ I want the users to have the ability to edit their own replies now. Consider:
   - since replies share the same entity than comments
   - "Edited" word should be shown too
 - Make sure @axios is used for requests
+- Replies are being shown in the recipe detail page @page.js  through the following component: @Comments.js 
+- The name of the reply field is `comment`, not `content`
 
 ### Verification
 
@@ -531,15 +613,22 @@ Make sure:
 
 ## openai-integration-setup
 
+**Remember to stop sharing when setting up your openai key**
+
 I want now to have the ability to integrate with openai.
 - Set up the project to have integration with it
 - For now don't implement any code functionality
   - just setup all dependencies and configurations requirements to start developing with it
 - if you need further clarification, ask me questions and based on answers we can go from there.
 
+### Verification
+
+- Make sure this is run: `npm install openai`
+- Set up the open ai key in the .env file
+
 ## recipe-images-generation
 
-Generated AI image with openai @web
+Generated AI image with openai
 - I want to have a way for users to submit their recipes with images generated by openai
   - based on information from the form being posted
 - I want to have a "Generate recipe image" button in the creation page @page
@@ -568,7 +657,8 @@ Generated AI image with openai @web
   - The image should be shown
   - The generate button should disappear
   - with an "Accept" button
-    - that would make the image to be uploaded to the frontend server in this folder: `public/images/recipes`
+    - that would make the image to be uploaded to the frontend server `http://localhost:3000` in this folder: `public/images/recipes`
+    - the image_url from the form should be updated with the value of the path of the image in the frontend server `http://localhost:3000/images/recipes/{recipe_image}`
   - a "Reject" button
     - this will not update anything to the server and will remove the image from the form
     - if clicked, the generate button should appear again
@@ -578,6 +668,7 @@ Generated AI image with openai @web
 ### Verification
 
 Make sure:
+- to install fs if needed `npm install fs`
 - `public/images/recipes` exist in frontend
 - this is in next.config.js:
 
@@ -616,13 +707,13 @@ Home page design
   - About us
   - Copyright
   - Social media
+- this page should replace the current one@page.js and I don't want the components to have any typescript, just javascript
 
 ## wcag-home-page
 
 are you able to evaluate if the home page is WCAG complaint?
 help me to implement the following:
 Adding skip links for keyboard users to bypass navigation
-Implementing proper form validation messages
 Adding proper ARIA landmarks
 Including a proper meta description
 Adding proper alt text for any images that might be added in the future
@@ -669,4 +760,15 @@ curl \
       "embedder": "recipes-openai"
     }
   }'
+```
+
+- Configure in the search the following
+
+```js
+meiliSearchParams: {
+            hybrid: {
+                embedder: 'recipes-openai',
+                semanticRatio: 0.5,
+            },
+        },
 ```
